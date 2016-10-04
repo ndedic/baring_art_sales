@@ -4,9 +4,10 @@ $filePath = "../Graves_Art_Sales.json";
 
 go($filePath);
 
-function endsWith($haystack, $needle)
-{
+function endsWith($haystack, $needle) {
+    
     $length = strlen($needle);
+    
     if ($length == 0) {
         return true;
     }
@@ -36,16 +37,17 @@ function extractSeller($str) {
 
 function generateNewFile($oldFile) {        
     
+    $result = [];
+    
     if ($oldFile !== false) {
         $items = json_decode($oldFile, true);
-        $result = [];
         foreach ($items as $item) {   
             if (isset($item['seller/artwork'])) {
                 $item['seller'] = extractSeller($item['seller/artwork']);        
                 $result[] = $item;
             }
         }   
-    }
+    }    
     
     return json_encode($result);
 }
@@ -56,9 +58,7 @@ function saveNewFile($file) {
 }
 
 function go($filePath) {
-    
     $file = file_get_contents($filePath);    
     $newFile = generateNewFile($file);   
     saveNewFile($newFile);
-
 }
